@@ -945,25 +945,35 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="237" parent="232" name="name">
+    <column id="237" parent="232" name="index">
       <Position>2</Position>
+      <DataType>varchar(10)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="238" parent="232" name="name">
+      <Position>3</Position>
       <DataType>varchar(160)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="238" parent="232" name="net_price">
-      <Position>3</Position>
+    <column id="239" parent="232" name="net_price">
+      <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="232" name="description">
-      <Position>4</Position>
+    <column id="240" parent="232" name="description">
+      <Position>5</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="240" parent="232" name="PRIMARY">
+    <column id="241" parent="232" name="category_id">
+      <Position>6</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="242" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

@@ -1,50 +1,79 @@
 <meta charset="x-UTF-8"/>
 <link rel="stylesheet" type="text/css" href="styles.css" />
-<?php
-
-//connection string and signing in to database
-$pdo = new PDO('mysql:host=localhost;port=3306;dbname=SimpleShop', 'root', 'poXtRZ1Q');
-
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$pdo->exec("SET NAMES 'utf8'");
-?>
-
-<div id="content">
-
-
+<link href="lightbox/dist/css/lightbox.css" rel="stylesheet">
+<script src="lightbox/dist/js/lightbox.js"></script>
+<script src="lightbox/dist/js/lightbox-plus-jquery.js"></script>
 
 <?php
-echo "<div id='menu'>";
-showMenu();
-echo "</div>";
 
-$stmt = $pdo->prepare("SELECT * FROM products");
-$stmt->execute();
+
+
+
 
 echo "<div id='products'>";
-//show elements from products table
-while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
-    echo "<div>";
-    echo "<h2>".$row['name']."</h2>";
-    echo "<h3>Cena netto: ".$row['net_price']." PLN</h3>";
-    echo $row['description'];
-    echo "<hr/>";
-    echo "</div>";
+if (isset($_GET['cat_id'])){
+    $category_id = $_GET['cat_id'];
 }
+else {
+    $category_id = null;
+}
+showCategory($category_id);
 echo "</div>";
 
-//show elements from table categories
-function showMenu(){
+
+
+//show elements from products table
+function showCategory($category_id = null){
     global $pdo;
 
-    $stmt = $pdo->prepare("SELECT * FROM categories");
-    $stmt->execute();
+    if($category_id) {
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE category_id = :cid");
+        $stmt->bindValue(':cid', $category_id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    else {
+        $stmt = $pdo->prepare("SELECT * FROM products");
+        $stmt->execute();
+    }
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo $row['name'];
-        echo "<br/>";
+
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        echo "<div>";
+        echo "<h2>".$row['name']."</h2>";
+        echo "<h3>Cena netto: ".$row['net_price']." PLN</h3>";
+
+        $index = $row['index'];
+
+        foreach (getProductPictures($index) as $image) {
+            echo "<a href=\"assets/img/$image\" data-lightbox=\". $index .\">";
+            echo "<img src='assets/img/thumbs/$image'/>";
+            echo "</a><br/>";
+        }
+
+        echo $row['description'];
+        echo "<hr/>";
+        echo "</div>";
     }
 }
-?>
-</div>
 
+function getProductPictures($index){
+    $images = array();
+
+    for ($i = 0; $i < 10; $i++ ){
+
+        $fileName =  $index."-".$i.".jpg";
+        $filePath = "assets/img/$fileName";
+
+
+        if (file_exists($filePath)){
+            $images[] = $fileName;
+        }
+
+    }
+
+    return $images;
+}
+?>
+
+</div>

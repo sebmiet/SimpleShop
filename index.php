@@ -6,11 +6,9 @@
 
 <?php
 
+require('header.php');
 
 
-
-
-echo "<div id='products'>";
 if (isset($_GET['cat_id'])){
     $category_id = $_GET['cat_id'];
 }
@@ -18,9 +16,8 @@ else {
     $category_id = null;
 }
 showCategory($category_id);
-echo "</div>";
 
-
+require('footer.php');
 
 //show elements from products table
 function showCategory($category_id = null){
@@ -35,45 +32,38 @@ function showCategory($category_id = null){
         $stmt = $pdo->prepare("SELECT * FROM products");
         $stmt->execute();
     }
-
-
-
+    echo "<table class='product'>";
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        echo "<div>";
-        echo "<h2>".$row['name']."</h2>";
-        echo "<h3>Cena netto: ".$row['net_price']." PLN</h3>";
-
+        echo "<tr><td>";
         $index = $row['index'];
+        $id =  $row['id'];
 
-        foreach (getProductPictures($index) as $image) {
-            echo "<a href=\"assets/img/$image\" data-lightbox=\". $index .\">";
-            echo "<img src='assets/img/thumbs/$image'/>";
-            echo "</a><br/>";
+        //photo
+        $images = getProductPictures($index);
+        if (!empty($images)) {
+            $image = $images[0];
+        }
+        else {
+            $image = 'no-photo.jpg';
         }
 
-        echo $row['description'];
-        echo "<hr/>";
-        echo "</div>";
+        echo "<img src='assets/img/mini/$image'/>";
+        echo "</td><td>";
+
+        //product name
+        echo "<a href='product.php?product_id=$id'>";
+        echo $row['name'];
+        echo "</a>";
+        echo "</td><td>";
+
+        //net price
+        echo $row['net_price']." PLN netto";
+        echo "</td></tr>";
     }
+    echo "</table>";
 }
 
-function getProductPictures($index){
-    $images = array();
 
-    for ($i = 0; $i < 10; $i++ ){
-
-        $fileName =  $index."-".$i.".jpg";
-        $filePath = "assets/img/$fileName";
-
-
-        if (file_exists($filePath)){
-            $images[] = $fileName;
-        }
-
-    }
-
-    return $images;
-}
 ?>
 
-</div>
+

@@ -1,9 +1,3 @@
-<meta charset="x-UTF-8"/>
-<link rel="stylesheet" type="text/css" href="styles.css" />
-<link href="lightbox/dist/css/lightbox.css" rel="stylesheet">
-<script src="lightbox/dist/js/lightbox.js"></script>
-<script src="lightbox/dist/js/lightbox-plus-jquery.js"></script>
-
 <?php
 
 require('header.php');
@@ -16,7 +10,9 @@ else {
     $category_id = null;
 }
 showCategory($category_id);
-
+//echo "<div class='ip'>";
+//echo 'User ip is '.$ip;
+//echo "</div>";
 require('footer.php');
 
 //show elements from products table
@@ -64,6 +60,6 @@ function showCategory($category_id = null){
 }
 
 
-?>
+
 
 

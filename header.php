@@ -7,12 +7,20 @@
 <?php
 
 require ('functions.php');
+require ('sessions.php');
+require ('request.php');
+require ('user.php');
+
 
 //connection string and signing in to database
 $pdo = new PDO('mysql:host=localhost;port=3306;dbname=SimpleShop', 'root', 'poXtRZ1Q');
 
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->exec("SET NAMES 'utf8'");
+
+$request = new userRequest();
+$session = new session();
+
 ?>
     <div id="content">
         <div id="menu">

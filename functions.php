@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sebmiet
- * Date: 31.03.18
- * Time: 01:40
- */
 
 define('SESSION_COOKIE', 'cookiesklep');
 define('SESSION_ID_LENGTH', 40);
@@ -35,7 +29,7 @@ function showMenu(){
     $stmt = $pdo->prepare("SELECT * FROM categories");
     $stmt->execute();
 
-    echo "<a href='index.php'>Wszystkie kategorie</a>\n";
+    echo "<a href='index.php'>Wszystkie kategorie</a><br>";
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $name = $row['name'];
@@ -43,6 +37,8 @@ function showMenu(){
         echo "<a href='index.php?cat_id=$id'>$name</a>";
         echo "<br/>";
     }
+    echo "<br><br>";
+    echo "<a href='showcart.php'>Koszyk</a>";
 }
 
 function random_session_id() {

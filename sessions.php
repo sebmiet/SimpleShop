@@ -86,4 +86,8 @@ class session
     function updateSession(user $user){
         global $pdo, $request;
     }
+
+    public function getSessionId() {
+        return $this->id;
+    }
 }

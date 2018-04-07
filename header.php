@@ -4,12 +4,15 @@
 <script src="lightbox/dist/js/lightbox.js"></script>
 <script src="lightbox/dist/js/lightbox-plus-jquery.js"></script>
 
+
+
 <?php
 
 require ('functions.php');
 require ('sessions.php');
 require ('request.php');
 require ('user.php');
+require ('cart.php');
 
 
 //connection string and signing in to database
@@ -20,11 +23,13 @@ $pdo->exec("SET NAMES 'utf8'");
 
 $request = new userRequest();
 $session = new session();
+$cart = new cart();
 
 ?>
     <div id="content">
         <div id="menu">
         <?php showMenu(); ?>
+
         </div>
         <div id="products">
 

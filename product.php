@@ -28,6 +28,10 @@ function showProduct($id) {
         }
 
         echo $row['description'];
+        echo "<br><br>";
+        echo "<a href=\"addToCart.php?id=$id\">Dodaj do koszyka</a>";
+
+
         echo "<hr/>";
         echo "</div>";
     }

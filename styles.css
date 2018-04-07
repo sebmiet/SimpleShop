@@ -17,9 +17,17 @@
     width: 600px;
 
 }
-table tr td{
+table, th, td{
     font-size: 20px;
     margin-left: 5px;
     margin-right: 5px;
     text-align: center;
+
+}
+.tb-cart, .tb-cart th, .tb-cart td{
+    font-size: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    border: 1px solid black;
 }

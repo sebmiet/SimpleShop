@@ -5,7 +5,7 @@ require('header.php');
 $inCart = $cart->getProducts();
 echo "<h1>Zawartość koszyka</h1>";
 echo "<table class='tb-cart'>";
-echo "<tr><th>INDEKS</th><th>NAZWA TOWARU</th><th>CENA NETTO</th><th>ILOŚĆ</th><th>WARTOŚĆ NETTO</th><th>USUŃ</th></tr>";
+echo "<tr><th>INDEKS</th><th>NAZWA TOWARU</th><th>CENA NETTO</th><th>ILOŚĆ</th><th>WARTOŚĆ NETTO</th></tr>";
 $sum = 0;
 foreach ($inCart as $product) {
     $productCartId = $product['id'];
@@ -17,17 +17,17 @@ foreach ($inCart as $product) {
     $id = $product['pid'];
     $sum += $total;
 
-    $remLink = "<a href='remFromCart.php?id=$productCartId'>Usuń</a>";
+    //$remLink = "<a href='remFromCart.php?id=$productCartId'>Usuń</a>";
     $plus = "<a href='addToCart.php?id=$id'>+</a>";
-    $minus = '-';
+    $minus = "<a href='remFromCart.php?id=$id'>-</a>";
 
 
     echo "<tr><td>".$index."</td>";
     echo "<td>".$name."</td>";
     echo "<td>".$net_price."</td>";
     echo "<td>$quantity $plus $minus</td>";
-    echo "<td>".$net_price * $quantity."</td>";
-    echo "<td>$remLink</td></tr>";
+    echo "<td>".$net_price * $quantity."</td></tr>";
+
 }
 
 //var_dump($inCart);

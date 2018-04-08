@@ -13,8 +13,9 @@ class cart
     public function add($id) {
         global $pdo, $session;
 
-        $stmt = $pdo->prepare("SELECT * FROM sessioncart WHERE product_id = :id");
+        $stmt = $pdo->prepare("SELECT * FROM sessioncart WHERE product_id = :id AND session_id = :sid");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':sid', $session->getSessionId(), PDO::PARAM_STR);
         $stmt->execute();
 
         if ($row = $stmt->fetchAll(PDO::FETCH_ASSOC)){
@@ -38,16 +39,35 @@ class cart
     public function remove($id){
         global $pdo, $session;
 
-        $stmt = $pdo->prepare("DELETE FROM sessioncart WHERE id = :id");
+        $stmt = $pdo->prepare("SELECT * FROM sessioncart WHERE product_id = :id AND session_id = :sid");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':sid', $session->getSessionId(), PDO::PARAM_STR);
         $stmt->execute();
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $qty = $row[0]['quantity'];
+        $qty--;
+
+
+        if ($qty == 0) {
+            $stmt = $pdo->prepare("DELETE FROM sessioncart WHERE product_id = :id AND session_id = :sid");
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':sid', $session->getSessionId(), PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        else {
+            $stmt = $pdo->prepare("UPDATE sessioncart SET quantity = :qty WHERE product_id = :id AND session_id = :sid");
+            $stmt->bindValue(':qty', $qty, PDO::PARAM_INT);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':sid', $session->getSessionId(), PDO::PARAM_STR);
+            $stmt->execute();
+        }
     }
 
 
     public function getProducts(){
         global $pdo, $session;
 
-        $stmt = $pdo->prepare("SELECT s.id, p.net_price, s.quantity, p.index, p.name, p.index AS pid FROM sessioncart s LEFT OUTER JOIN products p ON (s.product_id = p.id)  WHERE session_id = :sid ");
+        $stmt = $pdo->prepare("SELECT s.id, p.net_price, s.quantity, p.index, p.name, p.id AS pid FROM sessioncart s LEFT OUTER JOIN products p ON (s.product_id = p.id)  WHERE session_id = :sid ");
         $stmt->bindValue(':sid', $session->getSessionId(), PDO::PARAM_STR);
         $stmt->execute();
 
